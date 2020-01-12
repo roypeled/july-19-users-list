@@ -14,16 +14,13 @@ export default class UsersList extends React.Component {
         }
     }
 
-    getUsers(){
-        UserService.getAllUsers()
-            .then( this.onUsers.bind(this) )
-    }
-
-    onUsers(usersList){
+    async getUsers(){
+        const users = await UserService.getAllUsers();
         this.setState({
-            users: usersList
+            users
         })
     }
+
 
     renderUser(user, i){
         return <li key={i} onClick={ ()=> this.selectUser(user.id) }>{ user.name }</li>

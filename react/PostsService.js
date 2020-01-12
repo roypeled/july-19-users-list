@@ -1,4 +1,3 @@
-let $ = require("jquery");
 
 class PostsService{
 
@@ -6,9 +5,9 @@ class PostsService{
         this.url = "https://jsonplaceholder.typicode.com/posts/?userId=";
     }
 
-    getPosts(userId){
-        console.log("requested user", userId);
-        return $.get(this.url + userId);
+    async getPosts(userId){
+        const response = await fetch(this.url + userId);
+        return await response.json();
     }
 
 }

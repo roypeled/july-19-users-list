@@ -1,4 +1,3 @@
-let $ = require("jquery");
 
 class UserService{
 
@@ -6,12 +5,14 @@ class UserService{
         this.url = "https://jsonplaceholder.typicode.com/users/";
     }
 
-    getAllUsers(){
-        return $.get(this.url);
+    async getAllUsers(){
+        const response = await fetch(this.url);
+        return await response.json();
     }
 
-    getUser(id){
-        return $.get(this.url+id);
+    async getUser(id){
+        const response = await fetch(this.url+id);
+        return await response.json();
     }
 
 }

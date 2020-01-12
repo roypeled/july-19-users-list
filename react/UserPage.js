@@ -33,21 +33,13 @@ export default class UserPage extends React.Component {
         this.getPosts(id);
     }
 
-    getUser(id) {
-        UserService.getUser(id)
-            .then( this.onUser.bind(this) );
-    }
-
-    onUser(user){
+    async getUser(id) {
+        const user = await UserService.getUser(id);
         this.setState({ user });
     }
 
-    getPosts(id){
-        PostsService.getPosts(id)
-            .then( this.onPosts.bind(this) )
-    }
-
-    onPosts(posts){
+    async getPosts(id){
+        const posts = await PostsService.getPosts(id);
         this.setState({ posts });
     }
 
