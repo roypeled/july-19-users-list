@@ -18,7 +18,7 @@ export default class UsersList extends React.Component {
         const users = await UserService.getAllUsers();
         this.setState({
             users
-        })
+        });
     }
 
 
@@ -34,7 +34,7 @@ export default class UsersList extends React.Component {
         return (<nav className="users-list">
                     <h3>Users List</h3>
                     <ul>
-                        { this.state.users.map( this.renderUser.bind(this) ) }
+                        { this.state.users.map( user => this.renderUser(user) ) }
                     </ul>
                 </nav>)
     }
