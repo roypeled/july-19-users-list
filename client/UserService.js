@@ -2,7 +2,7 @@
 class UserService{
 
     constructor() {
-        this.url = "https://jsonplaceholder.typicode.com/users/";
+        this.url = "http://localhost:9090/users/";
     }
 
     async getAllUsers(){

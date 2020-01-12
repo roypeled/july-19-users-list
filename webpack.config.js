@@ -3,7 +3,7 @@ var HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = {
 
-    entry: "./react/index.js",
+    entry: "./client/index.js",
 
     output: {
         path: path.resolve(__dirname, "dist"),
@@ -38,7 +38,10 @@ module.exports = {
     ],
 
     devServer: {
-        port: 9090
+        port: 9090,
+        proxy: {
+            "/": "http://localhost:3000"
+        }
     }
 
 };
