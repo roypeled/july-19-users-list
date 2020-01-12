@@ -2,7 +2,7 @@
 class PostsService{
 
     constructor() {
-        this.url = "https://jsonplaceholder.typicode.com/posts/?userId=";
+        this.url = "http://localhost:9090/posts/?userId=";
     }
 
     async getPosts(userId){
