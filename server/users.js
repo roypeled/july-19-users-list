@@ -1,27 +1,34 @@
 const express = require("express");
 const router = express.Router();
-let users = require("./users.json");
+const { getUsersCollection } = require('./db');
 
-router.get("/", (req, res) => {
-    res.json(users);
+router.get("/", async (req, res) => {
+    (await getUsersCollection())
+        .find({})
+        .toArray((err, documents) => {
+            res.json(documents);
+        });
 });
 
-router.get("/:id", (req, res) => {
-    const user = users.find(user => user.id == req.params.id);
-    if(!user) res.status(404);
-    res.json(user);
+router.get("/:id", async (req, res) => {
+    (await getUsersCollection())
+        .findOne({id: parseInt(req.params.id) }, (err, doc) => {
+            res.json(doc);
+        });
 });
 
-router.delete("/:id", (req, res) => {
-    users = users.filter(user => user.id != req.params.id);
-    res.json(users);
+router.delete("/:id", async (req, res) => {
+    (await getUsersCollection())
+        .findOneAndDelete({id: parseInt(req.params.id) }, (err, doc) => {
+            res.json(doc);
+        });
 });
 
-router.post("/", (req, res) => {
-    const id = users.length;
-    const user = {...req.body, id};
-    users.push(user);
-    res.json(user);
+router.post("/", async (req, res) => {
+    (await getUsersCollection())
+        .insert(req.body, (err, doc) => {
+            res.json(doc);
+        });
 });
 
 module.exports = router;
