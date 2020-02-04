@@ -1,11 +1,12 @@
-const { MongoClient } = require('mongodb');
+const mongoose = require('mongoose');
 
-async function getUsersCollection() {
-    const client = await MongoClient.connect("mongodb://localhost:27017");
-    const db = client.db('users-list');
-    return db.collection('users');
+async function setDb() {
+    await mongoose.connect('mongodb://localhost:27017/users-list', {
+        useNewUrlParser: true,
+        useUnifiedTopology: true
+    });
 }
 
 module.exports = {
-    getUsersCollection
+    setDb
 };

@@ -1,34 +1,51 @@
 const express = require("express");
 const router = express.Router();
-const { getUsersCollection } = require('./db');
+const { UsersModel } = require("./users.model");
+const { CompanyModel } = require("./companies.model");
 
 router.get("/", async (req, res) => {
-    (await getUsersCollection())
-        .find({})
-        .toArray((err, documents) => {
-            res.json(documents);
-        });
+    const users = await UsersModel.find({}).populate('company');
+    res.send(users);
 });
 
 router.get("/:id", async (req, res) => {
-    (await getUsersCollection())
-        .findOne({id: parseInt(req.params.id) }, (err, doc) => {
-            res.json(doc);
-        });
+    const user = await UsersModel.findById(req.params.id).populate('company');
+    res.send(user);
 });
 
 router.delete("/:id", async (req, res) => {
-    (await getUsersCollection())
-        .findOneAndDelete({id: parseInt(req.params.id) }, (err, doc) => {
-            res.json(doc);
-        });
+    try {
+        await UsersModel.findByIdAndDelete(req.params.id);
+        res.send("ok");
+    } catch (e) {
+        res.status(400).send(e.message);
+    }
+});
+
+router.put("/:id", async (req, res) => {
+    try {
+        const user = await UsersModel.findByIdAndUpdate(req.params.id, { $set: req.body });
+        res.send(user);
+    } catch (e) {
+        res.status(400).send(e.message);
+    }
 });
 
 router.post("/", async (req, res) => {
-    (await getUsersCollection())
-        .insert(req.body, (err, doc) => {
-            res.json(doc);
-        });
+    let company = new CompanyModel(req.body.company);
+    company = await company.save();
+
+    const user = new UsersModel({
+        ...req.body,
+        company: company._id
+    });
+
+    try {
+        const result = await user.save();
+        res.send(result);
+    } catch (e) {
+        res.status(400).send(e.message);
+    }
 });
 
 module.exports = router;

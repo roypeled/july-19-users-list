@@ -1,7 +1,11 @@
 const express = require("express");
-const app = express();
 const usersRoute = require("./users");
 const postsRoute = require("./posts");
+const { setDb } = require("./db");
+
+const app = express();
+
+setDb();
 
 app.use(express.json());
 
