@@ -12,6 +12,5 @@ const CompanySchema = new Schema({
 const CompanyModel = model("Company", CompanySchema);
 
 module.exports = {
-    CompanyModel,
-    CompanySchema
+    CompanyModel
 };

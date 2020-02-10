@@ -1,5 +1,6 @@
 const { Schema, model, SchemaTypes } = require("mongoose");
-const { CompanySchema } = require("./companies.model");
+const idValidator = require("mongoose-id-validator");
+const paginate = require("mongoose-paginate-v2");
 
 require("mongoose-type-email");
 
@@ -36,6 +37,9 @@ const UsersSchema = new Schema({
         ref: 'Company'
     }
 });
+
+UsersSchema.plugin(idValidator);
+UsersSchema.plugin(paginate);
 
 const UsersModel = model("User", UsersSchema);
 

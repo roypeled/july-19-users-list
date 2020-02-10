@@ -1,15 +1,31 @@
 const express = require("express");
 const router = express.Router();
 const { UsersModel } = require("./users.model");
-const { CompanyModel } = require("./companies.model");
 
 router.get("/", async (req, res) => {
-    const users = await UsersModel.find({}).populate('company');
+    const filter = {};
+    const sort = {};
+
+    if(req.query.name || req.query.email)
+        filter.name = new RegExp(req.query.name, "i");
+    if(req.query.email)
+        filter.email = new RegExp(req.query.email, "i");
+
+    if(req.query.sortField)
+        sort[req.query.sortField] = req.query.sortDir || "asc";
+    else
+        sort.name = "asc";
+
+    const users = await UsersModel.paginate(filter, {
+        page:   req.query.page   || 1,
+        limit:  req.query.limit  || 10,
+        sort
+    });
     res.send(users);
 });
 
 router.get("/:id", async (req, res) => {
-    const user = await UsersModel.findById(req.params.id).populate('company');
+    const user = await UsersModel.findById(req.params.id).populate("company");
     res.send(user);
 });
 
@@ -32,13 +48,8 @@ router.put("/:id", async (req, res) => {
 });
 
 router.post("/", async (req, res) => {
-    let company = new CompanyModel(req.body.company);
-    company = await company.save();
 
-    const user = new UsersModel({
-        ...req.body,
-        company: company._id
-    });
+    const user = new UsersModel(req.body);
 
     try {
         const result = await user.save();
