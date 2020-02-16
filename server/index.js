@@ -18,4 +18,4 @@ app.use("/api/posts", postsRoute);
 app.use("/api/companies", companiesRoute);
 app.use("/", express.static(path.join(__dirname, '../dist')));
 
-app.listen(3000);
+app.listen(process.env.PORT || 3000);
