@@ -1,6 +1,7 @@
 import React from "react";
 import UserPage from "./UserPage";
 import UsersList from "./UsersList";
+import { BrowserRouter, Route } from "react-router-dom";
 
 import './main.scss';
 
@@ -18,9 +19,13 @@ export default class App extends React.Component {
     }
 
     render(){
-        return (<div>
-                    <UsersList onUserSelected={ this.selectUser.bind(this) } />
-                    <UserPage selectedUser={ this.state.selectedUser } />
-                </div>)
+        return (
+        <BrowserRouter>
+            <div>
+                <UsersList onUserSelected={ this.selectUser.bind(this) } />
+                <Route path="/users/:selectedUser" component={UserPage}/>
+            </div>
+        </BrowserRouter>
+        )
     }
 }

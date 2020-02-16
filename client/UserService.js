@@ -2,7 +2,7 @@
 class UserService{
 
     constructor() {
-        this.url = "http://localhost:9090/users/";
+        this.url = "/api/users/";
     }
 
     async getAllUsers(){

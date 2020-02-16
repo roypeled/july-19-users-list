@@ -2,7 +2,7 @@
 class PostsService{
 
     constructor() {
-        this.url = "http://localhost:9090/posts/?userId=";
+        this.url = "/api/posts/?userId=";
     }
 
     async getPosts(userId){

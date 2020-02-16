@@ -17,14 +17,14 @@ export default class UserPage extends React.Component {
             posts: []
         };
 
-        if(props.selectedUser) {
-            this.getDataForUser(props.selectedUser);
+        if(props.match.params.selectedUser) {
+            this.getDataForUser(props.match.params.selectedUser);
         }
     }
 
     componentWillReceiveProps(nextProps){
-        if(nextProps.selectedUser) {
-            this.getDataForUser(nextProps.selectedUser)
+        if(nextProps.match.params.selectedUser) {
+            this.getDataForUser(nextProps.match.params.selectedUser)
         }
     }
 

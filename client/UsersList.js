@@ -1,5 +1,6 @@
 import React from "react";
 import UserService from "./UserService";
+import {Link} from "react-router-dom";
 
 import "./users-list.scss";
 
@@ -23,11 +24,9 @@ export default class UsersList extends React.Component {
 
 
     renderUser(user, i){
-        return <li key={i} onClick={ ()=> this.selectUser(user.id) }>{ user.name }</li>
-    }
-
-    selectUser(userId){
-        this.props.onUserSelected(userId);
+        return <li key={user._id}>
+            <Link to={"/users/" + user._id}>{ user.name }</Link>
+        </li>
     }
 
     render(){

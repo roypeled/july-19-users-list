@@ -16,11 +16,7 @@ router.get("/", async (req, res) => {
     else
         sort.name = "asc";
 
-    const users = await UsersModel.paginate(filter, {
-        page:   req.query.page   || 1,
-        limit:  req.query.limit  || 10,
-        sort
-    });
+    const users = await UsersModel.find(filter);
     res.send(users);
 });
 
